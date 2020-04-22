@@ -1,0 +1,37 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@master
+
+    - name: Build image
+      run: docker build --pull -t fireworkweb/k8s .
+
+    - name: Test docker images
+      run: |
+        docker run fireworkweb/k8s kubectl version --client
+        docker run fireworkweb/k8s helm version
+        docker run fireworkweb/k8s aws-iam-authenticator version
+        docker run fireworkweb/k8s aws --version
+        docker run fireworkweb/k8s doctl version
+
+    - name: Get Tag Name
+      if: ${{ startsWith(github.ref, 'refs/tags/') && github.repository_owner == fireworkweb }}
+      uses: olegtarasov/get-tag@v2
+
+    - name: Push to Hub
+      if: ${{ startsWith(github.ref, 'refs/tags/') && github.repository_owner == fireworkweb }}
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: |
+        echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+        docker tag fireworkweb/k8s fireworkweb/k8s:$GIT_TAG_NAME
+        docker push fireworkweb/k8s
+        docker push fireworkweb/k8s:$GIT_TAG_NAME
