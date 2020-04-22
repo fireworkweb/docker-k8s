@@ -22,11 +22,11 @@ jobs:
         docker run fireworkweb/k8s doctl version
 
     - name: Get Tag Name
-      if: ${{ startsWith(github.ref, 'refs/tags/') && github.repository_owner == fireworkweb }}
+      if: ${{ startsWith(github.ref, 'refs/tags/') && github.repository_owner == 'fireworkweb' }}
       uses: olegtarasov/get-tag@v2
 
     - name: Push to Hub
-      if: ${{ startsWith(github.ref, 'refs/tags/') && github.repository_owner == fireworkweb }}
+      if: ${{ startsWith(github.ref, 'refs/tags/') && github.repository_owner == 'fireworkweb' }}
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
