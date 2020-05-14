@@ -1,15 +1,24 @@
 FROM alpine:3.11
 
+ARG DOCKER_VERSION=18.06.3-ce
 ARG HELM_VERSION=3.2.0
 ARG KUBECTL_VERSION=1.18.2
 ARG AWS_IAM_AUTH_VERSION=0.5.0
 ARG AWSCLI_VERSION=1.18.43
 ARG DOCTL_VERSION=1.41.0
 
+# default docker target assuming a docker:dind service is avaibable
+ENV DOCKER_HOST "tcp://docker:2375"
+ENV DOCKER_DRIVER "overlay2"
+
 WORKDIR /tmp
 
-RUN apk add --update --no-cache --virtual .build-deps \
-    curl ca-certificates
+RUN apk add --update --no-cache --virtual .build-deps curl ca-certificates
+
+# Install docker
+RUN curl -L https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VERSION}.tgz | tar xz && \
+    mv docker/docker /usr/local/bin/docker && \
+    chmod +x /usr/local/bin/docker
 
 # Install kubectl
 RUN curl -L https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl && \
