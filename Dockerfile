@@ -8,8 +8,9 @@ ARG AWSCLI_VERSION=1.18.43
 ARG DOCTL_VERSION=1.41.0
 
 # default docker target assuming a docker:dind service is avaibable
-ENV DOCKER_HOST "tcp://docker:2375"
 ENV DOCKER_DRIVER "overlay2"
+ENV DOCKER_HOST "tcp://docker:2375"
+ENV DOCKER_TLS_CERTDIR ""
 
 WORKDIR /tmp
 
