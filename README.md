@@ -1,4 +1,14 @@
-# fireworkweb/k8s
+### fireworkweb/k8s
+
+# ATTENTION - THIS REPO MOVED TO [kool-dev/docker-toolkit](https://github.com/kool-dev/docker-toolkit)
+
+> `fwd` is dead, long live [`kool` (check it out now!)](https://github.com/kool-dev/kool)
+
+This repository is deprecated and archived in favour of Kool maintened DevOps toolbox: https://github.com/kool-dev/docker-toolkit
+
+Below you will find original `fireworkweb/k8s` README for the sake of historic value.
+
+---
 
 Docker image with [Kubernetes](https://kubernetes.io/)-related tools.
 
